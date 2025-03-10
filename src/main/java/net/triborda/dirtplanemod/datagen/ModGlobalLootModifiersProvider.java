@@ -1,7 +1,10 @@
 package net.triborda.dirtplanemod.datagen;
 
 
+import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
+import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
@@ -16,6 +19,8 @@ import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import net.minecraft.world.item.Items;
 
+import java.util.List;
+
 public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
 
@@ -25,14 +30,25 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("test_iron_from_grass_block", new AddItemModifier(new LootItemCondition[]{
+        add("plant_matter_from_grass_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
                 MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
-                ModItems.PLANT_MATTER.get()));
+                ModItems.PLANT_MATTER.get(), 1));
 
-        add("test_iron_from_dirt_block", new AddItemModifier(new LootItemCondition[]{
+        add("plant_matter_from_dirt", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
                 MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
-                ModItems.PLANT_MATTER.get()));
+                ModItems.PLANT_MATTER.get(), 1));
+        add("dirt_clump_from_grass_block", new AddItemModifier(new LootItemCondition[]{
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
+                ModItems.DIRT_CLUMP.get(), 4));
+        add("dirt_clump_from_dirt", new AddItemModifier(new LootItemCondition[]{
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
+                ModItems.DIRT_CLUMP.get(), 4));
+
     }
 }

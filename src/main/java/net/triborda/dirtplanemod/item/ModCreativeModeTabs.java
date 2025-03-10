@@ -19,8 +19,9 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PLANT_MATTER.get()))
                     .title(Component.translatable("creativetab.dirt_plane_tab"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModItems.PLANT_MATTER.get());
+                        pOutput.accept(ModItems.DIRT_CLUMP.get());
                         pOutput.accept(ModItems.DIRT_PICK_AXE.get());
+                        pOutput.accept(ModItems.PLANT_MATTER.get());
                     })
                     .build());
 

@@ -15,6 +15,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DIRT_PICK_AXE = ITEMS.register("dirtpickaxe",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DIRT_CLUMP = ITEMS.register("dirtclump",
+            () -> new Item(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {
