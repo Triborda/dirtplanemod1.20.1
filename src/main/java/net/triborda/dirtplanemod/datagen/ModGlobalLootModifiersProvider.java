@@ -7,6 +7,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctions;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.triborda.dirtplanemod.DirtplaneMod;
+import net.triborda.dirtplanemod.item.ModItems;
 import net.triborda.dirtplanemod.loot.AddItemModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -26,12 +27,12 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
     protected void start() {
         add("test_iron_from_grass_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.IRON_INGOT)).build()},
-                Items.IRON_INGOT));
+                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
+                ModItems.PLANT_MATTER.get()));
 
         add("test_iron_from_dirt_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.IRON_INGOT)).build()},
-                Items.IRON_INGOT));
+                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
+                ModItems.PLANT_MATTER.get()));
     }
 }
