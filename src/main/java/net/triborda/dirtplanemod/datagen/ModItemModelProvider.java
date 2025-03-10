@@ -20,6 +20,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DIRT_CLUMP);
         simpleItem(ModItems.DIRT_PICK_AXE);
         simpleItem(ModItems.PLANT_MATTER);
+        simpleItem(ModItems.DIRT_STICK);
 
     }
 
