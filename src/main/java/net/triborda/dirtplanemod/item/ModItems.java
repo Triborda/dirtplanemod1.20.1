@@ -1,4 +1,4 @@
-package net.triborda.dirtplanemod.items;
+package net.triborda.dirtplanemod.item;
 
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -10,6 +10,11 @@ import net.triborda.dirtplanemod.DirtplaneMod;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, DirtplaneMod.MOD_ID);
+
+    public static final RegistryObject<Item> PLANT_MATTER = ITEMS.register("plantmatter",
+            () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DIRT_PICK_AXE = ITEMS.register("dirtpickaxe",
+            () -> new Item(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus) {

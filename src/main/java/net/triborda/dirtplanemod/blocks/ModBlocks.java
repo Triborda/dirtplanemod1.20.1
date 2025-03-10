@@ -1,18 +1,14 @@
 package net.triborda.dirtplanemod.blocks;
 
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.triborda.dirtplanemod.DirtplaneMod;
-import net.triborda.dirtplanemod.items.ModItems;
+import net.triborda.dirtplanemod.item.ModItems;
 
 import java.util.function.Supplier;
 
