@@ -41,7 +41,7 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
                 MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
                 ModItems.PLANT_MATTER.get(), 1));
         add("dirt_clump_from_grass_block", new AddItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
                 InvertedLootItemCondition.invert(
                         MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
                 ModItems.DIRT_CLUMP.get(), 4));
@@ -54,6 +54,9 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
         add("not_dirt_from_dirt", new RemoveItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build()},
+                Items.DIRT));
+        add("not_dirt_from_grass_block", new RemoveItemModifier(new LootItemCondition[]{
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build()},
                 Items.DIRT));
     }
 }
