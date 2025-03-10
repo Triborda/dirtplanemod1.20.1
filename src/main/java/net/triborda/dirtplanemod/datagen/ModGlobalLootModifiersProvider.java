@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
 import net.minecraftforge.common.loot.LootTableIdCondition;
 import net.minecraft.world.item.Items;
+import net.triborda.dirtplanemod.loot.RemoveItemModifier;
 
 import java.util.List;
 
@@ -50,5 +51,9 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
                         MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
                 ModItems.DIRT_CLUMP.get(), 4));
 
+
+        add("not_dirt_from_dirt", new RemoveItemModifier(new LootItemCondition[]{
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build()},
+                Items.DIRT));
     }
 }
