@@ -16,5 +16,6 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        //this.tag(TAG_TO_ADD_TO).add(ITEM_TO_ADD).addTag(TAG_TO_ADD);
     }
 }

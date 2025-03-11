@@ -18,15 +18,23 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         simpleItem(ModItems.DIRT_CLUMP);
-        simpleItem(ModItems.DIRT_PICK_AXE);
         simpleItem(ModItems.PLANT_MATTER);
         simpleItem(ModItems.DIRT_STICK);
 
+        handheldItem(ModItems.DIRT_PICK_AXE);
     }
 
+    // this appears as a 2d item when viewing in 3rd person
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.tryParse("item/generated")).texture("layer0",
+                ResourceLocation.tryBuild(DirtplaneMod.MOD_ID, "item/" + item.getId().getPath()));
+    }
+
+    // this appears as handheld like a tool when viewing in 3rd person
+    private ItemModelBuilder handheldItem(RegistryObject<Item> item) {
+        return withExistingParent(item.getId().getPath(),
+                ResourceLocation.tryParse("item/handheld")).texture("layer0",
                 ResourceLocation.tryBuild(DirtplaneMod.MOD_ID, "item/" + item.getId().getPath()));
     }
 }
