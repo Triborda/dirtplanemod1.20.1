@@ -21,6 +21,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> DIRT_PICK_AXE = ITEMS.register("dirt_pickaxe",
             () -> new PickaxeItem(ModToolTiers.DIRT, 1, 0, new Item.Properties()));
+    public static final RegistryObject<Item> DIRT_SHOVEL = ITEMS.register("dirt_shovel",
+            () -> new ShovelItem(ModToolTiers.DIRT, 1, 0, new Item.Properties()));
+
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.DIRT_CLUMP.get());
                         pOutput.accept(ModItems.DIRT_PICK_AXE.get());
+                        pOutput.accept(ModItems.DIRT_SHOVEL.get());
                         pOutput.accept(ModItems.DIRT_STICK.get());
                         pOutput.accept(ModItems.PLANT_MATTER.get());
                     })

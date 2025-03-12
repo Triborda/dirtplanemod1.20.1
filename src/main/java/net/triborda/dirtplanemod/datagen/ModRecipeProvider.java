@@ -41,5 +41,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', ModItems.DIRT_STICK.get())
                 .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
                 .save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIRT_PICK_AXE.get())
+                .pattern("D")
+                .pattern("S")
+                .pattern("S")
+                .define('D', ModItems.DIRT_CLUMP.get())
+                .define('S', ModItems.DIRT_STICK.get())
+                .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
+                .save(pWriter);
+
     }
 }

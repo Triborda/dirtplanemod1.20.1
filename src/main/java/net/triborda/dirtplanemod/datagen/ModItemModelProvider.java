@@ -22,6 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.DIRT_STICK);
 
         handheldItem(ModItems.DIRT_PICK_AXE);
+        handheldItem(ModItems.DIRT_SHOVEL);
     }
 
     // this appears as a 2d item when viewing in 3rd person
