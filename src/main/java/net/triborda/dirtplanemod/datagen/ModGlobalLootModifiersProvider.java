@@ -1,9 +1,15 @@
 package net.triborda.dirtplanemod.datagen;
 
 
-import net.minecraft.advancements.critereon.EntityEquipmentPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
+
+import com.mojang.datafixers.util.Either;
+import net.minecraft.advancements.critereon.*;
+
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
@@ -33,30 +39,57 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
     protected void start() {
         add("plant_matter_from_grass_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
+                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(
+                                ItemPredicate.Builder.item()
+                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                        )).build()},
                 ModItems.PLANT_MATTER.get(), 1));
 
         add("plant_matter_from_dirt", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build()},
+                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(
+                                ItemPredicate.Builder.item()
+                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                        )).build()},
                 ModItems.PLANT_MATTER.get(), 1));
         add("dirt_clump_from_grass_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
                 InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
+                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(
+                                ItemPredicate.Builder.item()
+                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                        )).build()},
                 ModItems.DIRT_CLUMP.get(), 4));
         add("dirt_clump_from_dirt", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
                 InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build()},
+                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(
+                                ItemPredicate.Builder.item()
+                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                        )).build()},
                 ModItems.DIRT_CLUMP.get(), 4));
 
 
         add("not_dirt_from_dirt", new RemoveItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build()},
+                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
+                InvertedLootItemCondition.invert(
+                        MatchTool.toolMatches(
+                                ItemPredicate.Builder.item()
+                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
+                        )).build()},
                 Items.DIRT));
         add("not_dirt_from_grass_block", new RemoveItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build()},
                 Items.DIRT));
+
+
     }
 }
