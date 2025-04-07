@@ -1,8 +1,11 @@
 package net.triborda.dirtplanemod;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.model.renderable.ITextureRenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -40,10 +43,15 @@ public class DirtplaneMod
 
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
+
+        modEventBus.addListener(this::clientSetup);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
+    }
+    private void clientSetup(final FMLClientSetupEvent event) {
+        ItemBlockRenderTypes.setRenderLayer(ModBlocks.DIRT_CAULDRON.get(), RenderType.translucent());
     }
 
     // Add the example block item to the building blocks tab

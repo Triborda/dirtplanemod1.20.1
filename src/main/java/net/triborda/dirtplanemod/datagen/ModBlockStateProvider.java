@@ -23,12 +23,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
             boolean hasDirt = state.getValue(DirtCauldronBlock.HAS_DIRT_CLUMP);
             boolean hasPlant = state.getValue(DirtCauldronBlock.HAS_PLANT_MATTER);
 
-            String suffix = "_lvl" + waterLevel;
-            if (hasDirt) suffix += "_dirt";
-            if (hasPlant) suffix += "_plant";
+            String suffix = "";
+            if (waterLevel > 0 ) {suffix = "_lvl" + waterLevel;
+            if (hasDirt && !hasPlant) suffix += "_dirt";
+            if (hasPlant && !hasDirt) suffix += "_plant";}
 
             return ConfiguredModel.builder()
-                    .modelFile(models().getExistingFile(modLoc("block/dirt_cauldron")))
+                    .modelFile(models().getExistingFile(modLoc("block/dirt_cauldron" + suffix)))
                     .build();
         });
     }
