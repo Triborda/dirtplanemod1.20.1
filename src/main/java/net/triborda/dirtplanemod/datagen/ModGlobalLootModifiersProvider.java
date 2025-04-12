@@ -37,29 +37,10 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        add("plant_matter_from_grass_block", new AddItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build(),
-                InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(
-                                ItemPredicate.Builder.item()
-                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
-                        )).build()},
-                ModItems.PLANT_MATTER.get(), 1));
 
-        add("plant_matter_from_dirt", new AddItemModifier(new LootItemCondition[]{
-                LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
-                MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get())).build(),
-                InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(
-                                ItemPredicate.Builder.item()
-                                        .hasEnchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.Ints.atLeast(1)))
-                        )).build()},
-                ModItems.PLANT_MATTER.get(), 1));
+
         add("dirt_clump_from_grass_block", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.GRASS_BLOCK).build(),
-                InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build(),
                 InvertedLootItemCondition.invert(
                         MatchTool.toolMatches(
                                 ItemPredicate.Builder.item()
@@ -68,8 +49,6 @@ public class ModGlobalLootModifiersProvider extends GlobalLootModifierProvider {
                 ModItems.DIRT_CLUMP.get(), 4));
         add("dirt_clump_from_dirt", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DIRT).build(),
-                InvertedLootItemCondition.invert(
-                        MatchTool.toolMatches(ItemPredicate.Builder.item().of(ModItems.DIRT_PICK_AXE.get()))).build(),
                 InvertedLootItemCondition.invert(
                         MatchTool.toolMatches(
                                 ItemPredicate.Builder.item()

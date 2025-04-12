@@ -7,6 +7,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.triborda.dirtplanemod.blocks.ModBlocks;
 import net.triborda.dirtplanemod.item.ModItems;
 
 import java.util.function.Consumer;
@@ -25,6 +26,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('D', ModItems.DIRT_CLUMP.get())
                 .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
                 .save(pWriter);
+
         // dirt clump -> dirt stick
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIRT_STICK.get())
                 .pattern("D")
@@ -32,6 +34,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('D', ModItems.DIRT_CLUMP.get())
                 .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
                 .save(pWriter);
+
         // dirt clump + dirt stick -> dirt pickaxe
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIRT_PICK_AXE.get())
                 .pattern("DDD")
@@ -39,16 +42,35 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern(" S ")
                 .define('D', ModItems.DIRT_CLUMP.get())
                 .define('S', ModItems.DIRT_STICK.get())
-                .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
+                .unlockedBy(getHasName(ModItems.DIRT_STICK.get()), has(ModItems.DIRT_STICK.get()))
                 .save(pWriter);
+        // dirt shovel
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIRT_SHOVEL.get())
                 .pattern("D")
                 .pattern("S")
                 .pattern("S")
                 .define('D', ModItems.DIRT_CLUMP.get())
                 .define('S', ModItems.DIRT_STICK.get())
-                .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
+                .unlockedBy(getHasName(ModItems.DIRT_STICK.get()), has(ModItems.DIRT_STICK.get()))
                 .save(pWriter);
 
+        //dirt scraper
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIRT_SCRAPER.get())
+                .pattern("D ")
+                .pattern("DS")
+                .define('D', ModItems.DIRT_CLUMP.get())
+                .define('S', ModItems.DIRT_STICK.get())
+                .unlockedBy(getHasName(ModItems.DIRT_STICK.get()), has(ModItems.DIRT_STICK.get()))
+                .save(pWriter);
+
+
+        // dirt cauldron
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DIRT_CAULDRON.get())
+                .pattern("D D")
+                .pattern("D D")
+                .pattern("DDD")
+                .define('D', ModItems.DIRT_CLUMP.get())
+                .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
+                .save(pWriter);
     }
 }

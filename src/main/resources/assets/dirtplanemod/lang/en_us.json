@@ -2,8 +2,9 @@
   "item.dirtplanemod.plant_matter": "Plant Matter",
   "item.dirtplanemod.dirt_pickaxe": "Dirt Pickaxe",
   "item.dirtplanemod.dirt_shovel": "Dirt Shovel",
-  "item.dirtplanemod.dirt_clump": "Dirt Clump",
-  "item.dirtplanemod.dirt_stick": "Clumped Dirt Stick",
+  "item.dirtplanemod.dirt_scraper": "Dirt Scraper",
+  "item.dirtplanemod.dirt_clump": "Dirt Clod",
+  "item.dirtplanemod.dirt_stick": "Dirt Stick",
   "item.dirtplanemod.dirt_sapling": "Dirt Sapling",
   "creativetab.dirt_plane_tab": "Dirt Plane Mod",
   "block.dirtplanemod.dirt_cauldron": "Dirt Cauldron"

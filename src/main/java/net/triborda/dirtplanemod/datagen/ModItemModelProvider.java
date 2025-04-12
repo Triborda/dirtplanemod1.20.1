@@ -27,6 +27,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         handheldItem(ModItems.DIRT_PICK_AXE);
         handheldItem(ModItems.DIRT_SHOVEL);
+        handheldItem(ModItems.DIRT_SCRAPER);
 
         evenSimplerBlockItem(ModBlocks.DIRT_CAULDRON);
     }

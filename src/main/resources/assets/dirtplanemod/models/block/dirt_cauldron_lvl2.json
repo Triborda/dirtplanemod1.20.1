@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "Dirtblock:minecraft textures EXAMPLE/block/dirt",
-		"1": "Dirtblock:minecraft textures EXAMPLE/block/water_overlay",
-		"particle": "Dirtblock:minecraft textures EXAMPLE/block/dirt"
+		"0": "dirtplanemod:block/dirt",
+		"1": "dirtplanemod:block/water_overlay0",
+		"particle": "dirtplanemod:block/dirt"
 	},
 	"elements": [
 		{

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ModToolTiers {
     public static final Tier DIRT = TierSortingRegistry.registerTier(
-            new ForgeTier(0, 5, 1f, 1f, 5,
+            new ForgeTier(0, 5, 1f, 0f, 5,
                     ModTags.Blocks.NEEDS_DIRT_TOOL, () -> Ingredient.of(ModItems.DIRT_CLUMP.get())),
             ResourceLocation.tryBuild(DirtplaneMod.MOD_ID, "dirt"), List.of(), List.of(Tiers.WOOD));
 

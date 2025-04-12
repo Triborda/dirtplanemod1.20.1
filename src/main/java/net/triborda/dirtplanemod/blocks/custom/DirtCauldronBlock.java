@@ -28,29 +28,26 @@ public class DirtCauldronBlock extends Block {
 
     public static final IntegerProperty WATER_LEVEL = IntegerProperty.create("water_level", 0, 4);
     public static final BooleanProperty HAS_DIRT_CLUMP = BooleanProperty.create("has_dirt_clump");
-    public static final BooleanProperty HAS_PLANT_MATTER = BooleanProperty.create("has_plant_matter");
 
 
     public DirtCauldronBlock(Properties pProperties) {
         super(pProperties);
         this.registerDefaultState(this.defaultBlockState()
                 .setValue(WATER_LEVEL, 0)
-                .setValue(HAS_DIRT_CLUMP, false)
-                .setValue(HAS_PLANT_MATTER, false));
+                .setValue(HAS_DIRT_CLUMP, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATER_LEVEL, HAS_DIRT_CLUMP, HAS_PLANT_MATTER);
+        builder.add(WATER_LEVEL, HAS_DIRT_CLUMP);
     }
 
 
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player,
                                  InteractionHand hand, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(hand);
-
+        boolean updated = false;
         if (!level.isClientSide) {
-            boolean updated = false;
 
             // Add water
             if (heldItem.getItem() == Items.WATER_BUCKET && state.getValue(WATER_LEVEL) == 0) {
@@ -62,7 +59,7 @@ public class DirtCauldronBlock extends Block {
             }
 
             // Add Dirt Clump
-            else if (heldItem.getItem() == ModItems.DIRT_CLUMP.get() && !state.getValue(HAS_DIRT_CLUMP)) {
+            else if (heldItem.getItem() == ModItems.DIRT_CLUMP.get() && !state.getValue(HAS_DIRT_CLUMP) && !(state.getValue(WATER_LEVEL) <= 0)) {
                 level.setBlock(pos, state.setValue(HAS_DIRT_CLUMP, true), 3);
                 if (!player.isCreative()) {
                     heldItem.shrink(1);
@@ -71,8 +68,8 @@ public class DirtCauldronBlock extends Block {
             }
 
             // Add Plant Matter
-            else if (heldItem.getItem() == ModItems.PLANT_MATTER.get() && !state.getValue(HAS_PLANT_MATTER)) {
-                level.setBlock(pos, state.setValue(HAS_PLANT_MATTER, true), 3);
+            else if (heldItem.getItem() == ModItems.PLANT_MATTER.get() && !(state.getValue(WATER_LEVEL) >= 4)) {
+                level.setBlock(pos, state.setValue(WATER_LEVEL, (state.getValue(WATER_LEVEL)+1)), 3);
                 if (!player.isCreative()) {
                     heldItem.shrink(1);
                 }
@@ -82,8 +79,7 @@ public class DirtCauldronBlock extends Block {
             // Check for crafting condition
             BlockState newState = level.getBlockState(pos);
             if (newState.getValue(WATER_LEVEL) > 0 &&
-                    newState.getValue(HAS_DIRT_CLUMP) &&
-                    newState.getValue(HAS_PLANT_MATTER)) {
+                    newState.getValue(HAS_DIRT_CLUMP)) {
 
                 // Spawn Dirt Sapling
                 ItemEntity result = new ItemEntity(level,
@@ -94,16 +90,13 @@ public class DirtCauldronBlock extends Block {
                 // Reset dirt + plant matter (decrement water)
                 level.setBlock(pos, newState
                         .setValue(HAS_DIRT_CLUMP, false)
-                        .setValue(HAS_PLANT_MATTER, false)
                         .setValue(WATER_LEVEL, (newState.getValue(WATER_LEVEL)-1)), 3);
-
-                updated = true;
             }
 
             return updated ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
 
-        return InteractionResult.SUCCESS;
+        return updated ? InteractionResult.SUCCESS : InteractionResult.PASS;
     }
 
     @Override
