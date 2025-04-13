@@ -6,9 +6,11 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.triborda.dirtplanemod.blocks.ModBlocks;
 import net.triborda.dirtplanemod.item.ModItems;
+import net.triborda.dirtplanemod.util.ModTags;
 
 import java.util.function.Consumer;
 
@@ -70,6 +72,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("D D")
                 .pattern("DDD")
                 .define('D', ModItems.DIRT_CLUMP.get())
+                .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
+                .save(pWriter);
+
+        // dirt workbench
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.DIRT_WORKBENCH.get())
+                .pattern("DD")
+                .pattern("DD")
+                .define('D', Items.DIRT)
                 .unlockedBy(getHasName(ModItems.DIRT_CLUMP.get()), has(ModItems.DIRT_CLUMP.get()))
                 .save(pWriter);
     }

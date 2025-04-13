@@ -1,6 +1,7 @@
 package net.triborda.dirtplanemod;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,6 +18,8 @@ import net.triborda.dirtplanemod.blocks.ModBlocks;
 import net.triborda.dirtplanemod.item.ModCreativeModeTabs;
 import net.triborda.dirtplanemod.item.ModItems;
 import net.triborda.dirtplanemod.loot.ModLootModifiers;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
+import net.triborda.dirtplanemod.menu.ModMenuTypes;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -25,7 +28,7 @@ public class DirtplaneMod
 {
     // Define mod id in a common place for everything to reference
     public static final String MOD_ID = "dirtplanemod";
-//    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public DirtplaneMod(FMLJavaModLoadingContext context)
     {
@@ -35,6 +38,7 @@ public class DirtplaneMod
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -42,6 +46,8 @@ public class DirtplaneMod
         modEventBus.addListener(this::addCreative);
 
         modEventBus.addListener(this::clientSetup);
+
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

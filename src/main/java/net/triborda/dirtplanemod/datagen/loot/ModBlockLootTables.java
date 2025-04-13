@@ -25,6 +25,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     @Override
     protected void generate() {
         this.dropSelf(ModBlocks.DIRT_CAULDRON.get());
+        this.dropSelf(ModBlocks.DIRT_WORKBENCH.get());
     }
 
     @Override
