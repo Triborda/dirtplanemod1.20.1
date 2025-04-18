@@ -3,6 +3,7 @@ package net.triborda.dirtplanemod.datagen;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
@@ -31,6 +32,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .modelFile(models().getExistingFile(modLoc("block/dirt_cauldron" + suffix)))
                     .build();
         });
+
+        simpleBlockWithItem(ModBlocks.DIRT_WORKBENCH.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/dirt_workbench")));
     }
 
 /*

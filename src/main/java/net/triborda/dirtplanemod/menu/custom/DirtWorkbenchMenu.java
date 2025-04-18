@@ -126,6 +126,11 @@ public class DirtWorkbenchMenu extends RecipeBookMenu<DirtCraftingContainer> {
             public void onTake(Player pPlayer, ItemStack pStack) {
                 this.checkTakeAchievements(pStack);
                 Container craftingContainer = DirtWorkbenchMenu.this.container;
+
+                if (!level.isClientSide) {
+                    level.destroyBlock(pos, false);
+                    player.closeContainer();
+                }
             }
 
             @Override
