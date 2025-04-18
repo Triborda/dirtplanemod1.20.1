@@ -10,16 +10,18 @@ import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+import net.triborda.dirtplanemod.blocks.custom.DirtWorkbenchBlock.DirtCraftingContainer;
 import net.triborda.dirtplanemod.DirtplaneMod;
 import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DirtWorkbenchMenu extends AbstractContainerMenu {
+public class DirtWorkbenchMenu extends RecipeBookMenu<DirtCraftingContainer> {
     private final Level level;
     private final BlockPos pos;
     private final NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
@@ -102,13 +104,64 @@ public class DirtWorkbenchMenu extends AbstractContainerMenu {
         }
     };
     private final ResultContainer resultContainer = new ResultContainer();
+    private final Player player;
+    private final DirtCraftingContainer container = new DirtCraftingContainer();
+    private final Slot resultSlot;
 
     public DirtWorkbenchMenu(int pContainerId, Inventory pPlayerInventory, ContainerLevelAccess pAccess, Level pLevel, BlockPos pPos) {
         super(MenuType.CRAFTING, pContainerId);
         this.level = pLevel;
         this.pos = pPos;
+        this.player = pPlayerInventory.player;
 
-        this.addSlot(new CustomResultSlot(pPlayerInventory.player, this.craftingContainer, this.resultContainer, 0, 124, 35));
+        this.resultSlot = new Slot(this.resultContainer, 0, 124, 35) {
+            private int removeCount;
+
+            @Override
+            public boolean mayPlace(ItemStack pStack) {
+                return false;
+            }
+
+            @Override
+            public void onTake(Player pPlayer, ItemStack pStack) {
+                this.checkTakeAchievements(pStack);
+                Container craftingContainer = DirtWorkbenchMenu.this.container;
+            }
+
+            @Override
+            public ItemStack remove(int pAmount) {
+                if (this.hasItem())
+                    this.removeCount += Math.min(pAmount, this.getItem().getCount());
+                return super.remove(pAmount);
+            }
+
+            @Override
+            protected void onQuickCraft(ItemStack pStack, int pAmount) {
+                this.removeCount += pAmount;
+                this.checkTakeAchievements(pStack);
+
+                if (!level.isClientSide) {
+                    level.destroyBlock(pos, false);
+                    player.closeContainer();
+                }
+            }
+
+            @Override
+            protected void onSwapCraft(int pNumItemsCrafted) {
+                this.removeCount = pNumItemsCrafted;
+            }
+
+            @Override
+            protected void checkTakeAchievements(ItemStack pStack) {
+                if (this.removeCount > 0)
+                    pStack.onCraftedBy(DirtWorkbenchMenu.this.player.level(), DirtWorkbenchMenu.this.player, this.removeCount);
+                if (this.container instanceof RecipeHolder recipeHolder)
+                    recipeHolder.awardUsedRecipes(DirtWorkbenchMenu.this.player, List.of());
+                this.removeCount = 0;
+            }
+        };
+
+        this.addSlot(this.resultSlot);
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -127,9 +180,55 @@ public class DirtWorkbenchMenu extends AbstractContainerMenu {
         }
     }
 
+    private static final int RESULT_SLOT = 0;
+    private static final int CRAFTING_START = 1;
+    private static final int CRAFTING_STOP = 9;
+    private static final int INVENTORY_START = 10;
+    private static final int INVENTORY_STOP = 45;
+    private static final int HOTBAR_START = 37;
+
     @Override
-    public ItemStack quickMoveStack(Player player, int i) {
-        return ItemStack.EMPTY;
+    public ItemStack quickMoveStack(Player player, int idx) {
+        ItemStack ret = ItemStack.EMPTY;
+        Slot slot = this.slots.get(idx);
+        if (!slot.hasItem())
+            return ret;
+
+        ItemStack item = slot.getItem();
+        ret = item.copy();
+
+        if (idx == RESULT_SLOT)
+        {
+            if (!this.moveItemStackTo(item, INVENTORY_START, INVENTORY_STOP + 1, true))
+                return ItemStack.EMPTY;
+
+            slot.onQuickCraft(item, ret);
+        }
+        else if (idx > INVENTORY_START && idx < INVENTORY_STOP + 1)
+        {
+            if (!this.moveItemStackTo(item, CRAFTING_START, CRAFTING_STOP + 1, false))
+            {
+                if (idx < HOTBAR_START)
+                {
+                    if (!this.moveItemStackTo(item, HOTBAR_START, INVENTORY_STOP + 1, false))
+                        return ItemStack.EMPTY;
+                }
+                else if (!this.moveItemStackTo(item, INVENTORY_START, HOTBAR_START, false))
+                    return ItemStack.EMPTY;
+            }
+        }
+        else if (!this.moveItemStackTo(item, INVENTORY_START, INVENTORY_STOP + 1, false))
+            return ItemStack.EMPTY;
+
+        if (item.isEmpty())
+                slot.set(ItemStack.EMPTY);
+        else
+            slot.setChanged();
+
+        if (item.getCount() == ret.getCount())
+            return ItemStack.EMPTY;
+
+        return ret;
     }
 
     @Override
@@ -153,6 +252,52 @@ public class DirtWorkbenchMenu extends AbstractContainerMenu {
                 resultContainer.setItem(0, ItemStack.EMPTY);
             }
         }
+    }
+
+    @Override
+    public void fillCraftSlotsStackedContents(StackedContents stackedContents) {
+        this.craftingContainer.fillStackedContents(stackedContents);
+    }
+
+    @Override
+    public void clearCraftingContent() {
+        this.craftingContainer.clearContent();
+        this.resultContainer.clearContent();
+    }
+
+    @Override
+    public boolean recipeMatches(Recipe<? super DirtCraftingContainer> recipe) {
+        return recipe.matches(this.container, this.player.level());
+    }
+
+    @Override
+    public int getResultSlotIndex() {
+        return 0;
+    }
+
+    @Override
+    public int getGridWidth() {
+        return 3;
+    }
+
+    @Override
+    public int getGridHeight() {
+        return 3;
+    }
+
+    @Override
+    public int getSize() {
+        return 9;
+    }
+
+    @Override
+    public RecipeBookType getRecipeBookType() {
+        return RecipeBookType.CRAFTING;
+    }
+
+    @Override
+    public boolean shouldMoveToInventory(int i) {
+        return i != 0;
     }
 
     private class CustomResultSlot extends ResultSlot {
